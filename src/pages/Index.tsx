@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
+import { Search, Home, Key, Building2 } from 'lucide-react';
 import CategorySelector from '@/components/CategorySelector';
 import PropertyGrid from '@/components/PropertyGrid';
 
