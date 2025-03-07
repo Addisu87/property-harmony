@@ -1,7 +1,8 @@
-
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
-import { Search, Home, Building2, Key } from 'lucide-react';
+import { Search } from 'lucide-react';
+import CategorySelector from '@/components/CategorySelector';
+import PropertyGrid from '@/components/PropertyGrid';
 
 const Index = () => {
   return (
@@ -35,6 +36,20 @@ const Index = () => {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Category Selector */}
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <CategorySelector />
+      </section>
+
+      {/* Property Grid Section */}
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-semibold">Featured Properties</h2>
+          <Button variant="outline">View All</Button>
+        </div>
+        <PropertyGrid />
       </section>
 
       {/* Features Section */}
