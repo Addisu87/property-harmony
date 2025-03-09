@@ -1,12 +1,12 @@
-
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Home, Building2, Search } from 'lucide-react';
+import { Menu, X, Home } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,7 +29,6 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             <Link to="/buy" className="text-gray-600 hover:text-gray-900 transition-colors">
               Buy
@@ -40,12 +39,11 @@ const Navbar = () => {
             <Link to="/sell" className="text-gray-600 hover:text-gray-900 transition-colors">
               Sell
             </Link>
-            <Button variant="outline" className="ml-4">
+            <Button variant="outline" className="ml-4" onClick={() => navigate('/signin')}>
               Sign In
             </Button>
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden">
             <Button
               variant="ghost"
@@ -57,7 +55,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden animate-slideDown">
             <div className="px-2 pt-2 pb-3 space-y-1">
@@ -79,7 +76,7 @@ const Navbar = () => {
               >
                 Sell
               </Link>
-              <Button className="w-full mt-4">
+              <Button className="w-full mt-4" onClick={() => navigate('/signin')}>
                 Sign In
               </Button>
             </div>
