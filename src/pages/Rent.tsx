@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
@@ -9,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import Map from '@/components/Map';
 import Filters from '@/components/Filters';
 import SearchModal from '@/components/SearchModal';
+import { FilterProvider } from '@/contexts/FilterContext';
 
 const Rent = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -48,30 +48,32 @@ const Rent = () => {
         </section>
 
         {/* Map and Listings Section */}
-        <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Filters - Left Sidebar */}
-            <div className="lg:col-span-3">
-              <Filters />
-            </div>
-
-            {/* Main Content */}
-            <div className="lg:col-span-9">
-              <div className="mb-8">
-                <Map />
+        <FilterProvider>
+          <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              {/* Filters - Left Sidebar */}
+              <div className="lg:col-span-3">
+                <Filters />
               </div>
 
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h2 className="text-2xl font-semibold">Available Rentals</h2>
-                  <p className="text-gray-500">Showing all properties for rent</p>
+              {/* Main Content */}
+              <div className="lg:col-span-9">
+                <div className="mb-8">
+                  <Map />
                 </div>
+
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <h2 className="text-2xl font-semibold">Available Rentals</h2>
+                    <p className="text-gray-500">Showing all properties for rent</p>
+                  </div>
+                </div>
+                
+                <PropertyGrid />
               </div>
-              
-              <PropertyGrid />
             </div>
-          </div>
-        </section>
+          </section>
+        </FilterProvider>
       </div>
 
       <SearchModal 

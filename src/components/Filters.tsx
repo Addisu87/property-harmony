@@ -2,20 +2,43 @@
 import React from 'react';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { 
-  BedDouble, 
-  Bath, 
-  HomeIcon, 
-  DollarSign,
-  Filter
-} from 'lucide-react';
+import { BedDouble, Bath, HomeIcon, DollarSign, Filter } from 'lucide-react';
+import { useFilters } from '@/contexts/FilterContext';
+import { cn } from '@/lib/utils';
 
 const Filters = () => {
+  const {
+    priceRange,
+    setPriceRange,
+    bedrooms,
+    setBedrooms,
+    bathrooms,
+    setBathrooms,
+    homeType,
+    setHomeType
+  } = useFilters();
+
+  const handleClearAll = () => {
+    setPriceRange([0, 1000000]);
+    setBedrooms(null);
+    setBathrooms(null);
+    setHomeType(null);
+  };
+
+  const formatPrice = (price: number) => {
+    if (price >= 1000000) return `$${(price / 1000000).toFixed(1)}M`;
+    if (price >= 1000) return `$${(price / 1000).toFixed(0)}K`;
+    return `$${price}`;
+  };
+
   return (
     <div className="bg-white p-4 rounded-lg shadow-sm border">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold">Filters</h3>
-        <Button variant="ghost" size="sm">
+        <div className="flex items-center gap-2">
+          <Filter className="w-4 h-4" />
+          <h3 className="font-semibold">Filters</h3>
+        </div>
+        <Button variant="ghost" size="sm" onClick={handleClearAll}>
           Clear all
         </Button>
       </div>
@@ -27,10 +50,17 @@ const Filters = () => {
             <DollarSign className="w-4 h-4" />
             <span>Price Range</span>
           </label>
-          <Slider defaultValue={[0, 1000000]} max={1000000} step={10000} />
+          <Slider 
+            defaultValue={priceRange}
+            value={priceRange}
+            max={1000000} 
+            step={10000}
+            onValueChange={(value) => setPriceRange(value as [number, number])}
+            className="mt-2"
+          />
           <div className="flex justify-between mt-2">
-            <span className="text-sm text-muted-foreground">$0</span>
-            <span className="text-sm text-muted-foreground">$1M+</span>
+            <span className="text-sm text-muted-foreground">{formatPrice(priceRange[0])}</span>
+            <span className="text-sm text-muted-foreground">{formatPrice(priceRange[1])}</span>
           </div>
         </div>
 
@@ -43,7 +73,12 @@ const Filters = () => {
             </label>
             <div className="flex gap-2">
               {[1, 2, 3, 4, "5+"].map((num) => (
-                <Button key={num} variant="outline" size="sm">
+                <Button
+                  key={num}
+                  variant={bedrooms === String(num) ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setBedrooms(bedrooms === String(num) ? null : String(num))}
+                >
                   {num}
                 </Button>
               ))}
@@ -57,7 +92,12 @@ const Filters = () => {
             </label>
             <div className="flex gap-2">
               {[1, 2, 3, "4+"].map((num) => (
-                <Button key={num} variant="outline" size="sm">
+                <Button
+                  key={num}
+                  variant={bathrooms === String(num) ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setBathrooms(bathrooms === String(num) ? null : String(num))}
+                >
                   {num}
                 </Button>
               ))}
@@ -73,7 +113,12 @@ const Filters = () => {
           </label>
           <div className="flex flex-wrap gap-2">
             {["House", "Condo", "Townhouse", "Multi-family", "Land"].map((type) => (
-              <Button key={type} variant="outline" size="sm">
+              <Button
+                key={type}
+                variant={homeType === type ? "default" : "outline"}
+                size="sm"
+                onClick={() => setHomeType(homeType === type ? null : type)}
+              >
                 {type}
               </Button>
             ))}
